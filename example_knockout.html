@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">	
+		<link href="style.css" rel="stylesheet"/>		
+		<title>Example</title>				
+	</head>
+	<body>
+		<div class="list-wrapper">
+			<ul data-bind="foreach: persons">
+				<li data-bind="template: { name: 'person-info-template' }">					
+				</li>				
+			</ul>
+			<button type="button" data-bind="click: loadMore">Load more..</button>
+		</div>
+
+		<script type="text/html" id="person-info-template">
+		    <button class="btn-remove-item" data-bind="click: $parent.removePerson">x</button>
+			<img class="person-photo" data-bind="attr: { src: picture }"/>					
+			<div class="person-info">
+				<div class="person-general-info">
+					<div>
+						<label>Index in list: </label>
+						<label data-bind="text: $index()"></label>
+					</div>
+					<div>							
+						<label>Name: </label>
+						<label data-bind="text: userName"></label>
+					</div>							
+				</div>						
+				<button type="button" data-bind="visible: !isExtraShown(), click: toggleExtraInformation">Show more..</button>
+				<button type="button" data-bind="visible: isExtraShown(), click: toggleExtraInformation" style="display: none">Show less..</button>
+				<div class="person-extra-info" data-bind="visible: isExtraShown()">
+					<div>
+						<label>Title: </label>
+						<label data-bind="text: title"></label>
+					</div>
+					<div>
+						<label>Gender: </label>
+						<label data-bind="text: name"></label>
+					</div>
+				</div>
+			</div>
+		</script>
+		
+		<script data-main="scripts/app" async src="scripts/require-2.1.20.min.js"></script>
+	</body>
+</html>
