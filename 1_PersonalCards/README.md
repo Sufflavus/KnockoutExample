@@ -1,4 +1,4 @@
-# KnockoutExample
+# 1. PersonalCards
 
 ## List of used tecnologies and libraries:
 1. [Knockoutjs](http://knockoutjs.com/) 
