@@ -1,8 +1,10 @@
-requirejs.config({
-    baseUrl: "scripts",
+requirejs.config({    
+    baseUrl: 'scripts/libs',    
     paths: {
 		jquery: 'jquery-2.1.4.min',
-		knockout: 'knockout-3.3.0'
+		knockout: 'knockout-3.3.0',
+        viewModels: '../ViewModels',
+        app: '../',
     },
 	shim: {
         'jquery': {
@@ -14,6 +16,9 @@ requirejs.config({
 	}
 });
 //https://www.airpair.com/jasmine/posts/javascriptintegrating-jasmine-with-requirejs-amd
-requirejs(['page-view-model', 'jquery', 'knockout'], function(page) {
-    page.bindPage();
+require(['viewModels/page-view-model', 'jquery', 'knockout'], function(viewModel, $, ko) {
+    $(function() {
+        var page = viewModel.init();
+        ko.applyBindings(page);    
+    });    
 });

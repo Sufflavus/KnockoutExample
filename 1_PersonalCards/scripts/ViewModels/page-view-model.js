@@ -1,11 +1,10 @@
 define(
-    'page-view-model',
-    ['jquery', 'knockout'],
-    function($, ko){
+    "viewModels/page-view-model",
+    ["jquery", "knockout", "app/data-context"],
+    function($, ko, context){
     	
 		function PageViewModel(){
-			var persons = ko.observableArray();
-			var baseUrl = "http://api.randomuser.me/?results=";
+			var persons = ko.observableArray();			
 			var defaultLoadItemsCount = 3;
 
 			initList();
@@ -24,11 +23,14 @@ define(
 				}						
 			}
 
-			function loadMore(){
-				var url = baseUrl + defaultLoadItemsCount;
-	            $.getJSON(url, function(data) {
-	                updatePeopleList(data);
-	            });
+			function loadMore(){				
+	            context.getPersons(defaultLoadItemsCount)
+	            	.then(function (data) {
+	                    updatePeopleList(data);
+	                })
+	                .fail(function() {
+	                    alert("Error occured");
+	                });
 			}
 
 			function updatePeopleList(data){
@@ -43,8 +45,8 @@ define(
 
 	        return {
 	        	persons: persons,
-	        	removePerson:removePerson,
-	        	loadMore:loadMore
+	        	removePerson: removePerson,
+	        	loadMore: loadMore
 	        }
 		}
 
@@ -63,18 +65,17 @@ define(
 	            userName: userName,
 	            title: title,		                
 	            name: model.user.name.first,
-	            isExtraShown:isExtraShown,
-	            toggleExtraInformation:toggleExtraInformation
+	            isExtraShown: isExtraShown,
+	            toggleExtraInformation: toggleExtraInformation
 	        };
 		}
 
-		function bindPage(){
-			var page = new PageViewModel();
-	    	ko.applyBindings(page);
+		function init(){
+			return new PageViewModel();	    	
 		}
 
         return {
-            bindPage: bindPage
+            init: init
         };
     }
 );
